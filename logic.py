@@ -1,5 +1,5 @@
 import os
-import urllib.request
+import urllib
 import io
 from tld import get_tld
 from socket import gethostbyname
@@ -8,8 +8,8 @@ from socket import gethostbyname
 def getTopLevelDomain(URL):
     return get_tld(URL)
 
-def getIPAdress(URL):
-     return gethostbyname(URL)
+def getIPAdress(TLD):
+     return gethostbyname(TLD)
 
 def getPortData(IP,option):
     bashCommand = "nmap " + option + " " + IP
@@ -22,9 +22,9 @@ def getRobot(URL):
         path = URL
     else:
         path = URL + "/"
-    request = urllib.request.urlopen(path + "robot.txt", data=NONE)
-    data = io.TextIOWrapper(request, encoding='UTF-8')
-    return data.read()
+    request = urllib.urlopen(path + "robot.txt", data=None,proxies=None,context=None)
+    data = io.TextIOWrapper(request,encoding="utf-8",errors=None,newline=None,line_buffering=False)
+    return request.read()
 
 def getDomainNameInfo(TLD):
     bashCommand = "whois " + TLD
@@ -33,8 +33,16 @@ def getDomainNameInfo(TLD):
     return results
 
 def gather(URL):
+    if "http://www." or "https://www." not in URL:
+        print "ERROR Requires full URL! Ex. https://www.yahoo.com"
+        return
     TLD = getTopLevelDomain(URL)
-    ipAddress = getIPAdress(URL)
-    portMap = getPortData(ipAddress, " ")
+    ipAddress = getIPAdress(TLD)
+    portMap = getPortData(ipAddress, "-F")
     robots = getRobot(URL)
     whois = getDomainNameInfo(TLD)
+    stringis = [TLD,ipAddress,portMap,robots,whois]
+    return stringis
+
+
+print getRobot("https://www.yahoo.com")
