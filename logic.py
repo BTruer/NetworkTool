@@ -22,8 +22,7 @@ def getRobot(URL):
         path = URL
     else:
         path = URL + "/"
-    request = urllib.urlopen(path + "robot.txt", data=None,proxies=None,context=None)
-    data = io.TextIOWrapper(request,encoding="utf-8",errors=None,newline=None,line_buffering=False)
+    request = urllib.urlopen(path + "robots.txt", data=None,proxies=None,context=None)
     return request.read()
 
 def getDomainNameInfo(TLD):
@@ -45,4 +44,3 @@ def gather(URL):
     return stringis
 
 
-print getRobot("https://www.yahoo.com")
