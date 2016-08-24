@@ -1,6 +1,5 @@
 import os
 import urllib
-import io
 from tld import get_tld
 from socket import gethostbyname
 
@@ -32,8 +31,8 @@ def getDomainNameInfo(TLD):
     return results
 
 def gather(URL):
-    if "http://www." or "https://www." not in URL:
-        print "ERROR Requires full URL! Ex. https://www.yahoo.com"
+    if "http://www." and "https://www." not in URL:
+        print "ERROR Requires full URL! Ex. https://www.yahoo.com\n"
         return
     TLD = getTopLevelDomain(URL)
     ipAddress = getIPAdress(TLD)
@@ -42,5 +41,3 @@ def gather(URL):
     whois = getDomainNameInfo(TLD)
     stringis = [TLD,ipAddress,portMap,robots,whois]
     return stringis
-
-

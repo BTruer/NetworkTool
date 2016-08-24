@@ -1,30 +1,7 @@
-from logic import *
-from gi.repository import Gtk
+from logic import gather
 
-class MainWindow(Gtk.Window):
-    def __init__(self):
-        Gtk.Window.__init__(self, title="PyReconnaissance")
+stringInput = raw_input("Enter a full URL then a comma then an option <file,print>(write to a file, or print to shell) Ex.https://www.yahoo.com, print\n")
+#To do: parse the string and write to file function
+#also pip frezze virtual env and requriements.txt
+TLD, ipAddress, portMap, robots, whois = gather(url)
 
-        self.box = Gtk.Box(spacing=10)
-        self.add(self.box)
-
-        self.label = Gtk.Label()
-        self.label.set_label("Please Enter A URL")
-        self.label.set_halign(Gtk.Align.END)
-    #    self.add(self.label)
-        self.box.pack_start(self.label, True, True, 0)
-
-        self.button = Gtk.Button(label="Enter")
-        self.button.connect("clicked", self.button_clicked)
-    #    self.add(self.button)
-        self.box.pack_start(self.button, True, True, 0)
-
-    def buttonClicked(self, widget):
-        print()
-
-
-
-window = MainWindow()
-window.connect("delete-event", Gtk.main_quit)
-window.show_all()
-Gtk.main()
